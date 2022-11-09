@@ -1,4 +1,4 @@
-# Proyecto Final 2023-1 
+# 🎮🕹️ Proyecto Final 2023-1 👾
 ## Proyecto base para el proyecto final de computación gráfica interacción humano computadora 
 ## **Objetivo**
 El alumno deberá aplicar y demostrar los conocimientos adquiridos durante todo el curso.
