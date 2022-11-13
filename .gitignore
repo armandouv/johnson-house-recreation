@@ -1,3 +1,9 @@
 .idea
 cmake-build-debug
 .mayaSwatches
+CMakeFiles
+cmake_install.cmake
+CMakeCache.txt
+Makefile
+proyecto_final
+*.exe
