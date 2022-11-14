@@ -7,7 +7,7 @@ include(FetchContent)
 
 FetchContent_Declare(
         glew
-        URL https://sourceforge.net/projects/glew/files/glew/2.2.0/glew-2.2.0.zip
+        GIT_REPOSITORY https://github.com/Perlmint/glew-cmake.git
 )
 
 FetchContent_Declare(
@@ -50,4 +50,4 @@ include_directories(
 
 add_executable(proyecto_final MainPrueba.cpp Shader.h Camera.h Mesh.h Model.h meshAnim.h modelAnim.h Texture.h)
 
-target_link_libraries(proyecto_final glfw assimp soil2-debug OpenGL::GL GLEW glm::glm)
+target_link_libraries(proyecto_final glfw assimp soil2 OpenGL::GL libglew_static glm::glm)
