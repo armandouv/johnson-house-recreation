@@ -152,11 +152,12 @@ int main() {
 
 
     Shader lightingShader("Shaders/lighting.vs", "Shaders/lighting.frag");
-    Shader lampShader("Shaders/lamp.vs", "Shaders/lamp.frag");
+    Shader lampShader("Shaders/lamp2.vs", "Shaders/lamp2.frag");
     Shader Anim("Shaders/anim.vs", "Shaders/anim.frag");
 
     Model Piso((char *) "Models/Sea/Sea.obj");
     Model SV((char *) "Models/Sea/salvavidas.obj");
+    Model Fish((char *) "Models/Fishes/TropicalFish01.obj");
 
 
 
@@ -318,9 +319,21 @@ int main() {
         model = glm::mat4(1);
         model = glm::translate(model, glm::vec3(0.0f, 0.1f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        SV.Draw(lampShader);
+        //SV.Draw(lampShader);
         glBindVertexArray(0);
 
+        Anim.Use();
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        tiempo = glfwGetTime();
+        model = glm::mat4(1);
+        model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        glUniform1f(glGetUniformLocation(Anim.Program, "time"), glfwGetTime());
+        Fish.Draw(Anim);
+        //Piso.Draw(Anim);
+        glBindVertexArray(0);
 
         // Swap the screen buffers
         glfwSwapBuffers(window);
