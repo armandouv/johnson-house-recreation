@@ -26,7 +26,9 @@
 
 // Function prototypes
 void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode);
+
 void MouseCallback(GLFWwindow *window, double xPos, double yPos);
+
 void DoMovement();
 
 // Window dimensions
@@ -43,7 +45,8 @@ bool firstMouse = true;
 glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 bool active;
 
-float tiempo;
+float tiempo = 1.0f;
+float speed = 1.0f;
 
 
 // Positions of the point lights
@@ -119,8 +122,7 @@ int main() {
     // Create a GLFWwindow object that we can use for GLFW's functions
     GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Iluminacion 2", nullptr, nullptr);
 
-    if (nullptr == window)
-    {
+    if (nullptr == window) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
 
@@ -141,8 +143,7 @@ int main() {
     // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
     glewExperimental = GL_TRUE;
     // Initialize GLEW to setup the OpenGL Function pointers
-    if (GLEW_OK != glewInit())
-    {
+    if (GLEW_OK != glewInit()) {
         std::cout << "Failed to initialize GLEW" << std::endl;
         return EXIT_FAILURE;
     }
@@ -154,10 +155,11 @@ int main() {
     Shader lightingShader("Shaders/lighting.vs", "Shaders/lighting.frag");
     Shader lampShader("Shaders/lamp2.vs", "Shaders/lamp2.frag");
     Shader Anim("Shaders/anim.vs", "Shaders/anim.frag");
+    Shader Anim2("Shaders/anim2.vs", "Shaders/anim2.frag");
 
     Model Piso((char *) "Models/Sea/Sea.obj");
+    Model Fishes((char *) "Models/Fishes/TropicalFish01.obj");
     Model SV((char *) "Models/Sea/salvavidas.obj");
-    Model Fish((char *) "Models/Fishes/TropicalFish01.obj");
 
 
 
@@ -306,34 +308,38 @@ int main() {
         glm::mat4 model(1);
         glBindVertexArray(0);
 
-        // Also draw the lamp object, again binding the appropriate shader
-        lampShader.Use();
-        // Get location objects for the matrices on the lamp shader (these could be different on a different shader)
-        modelLoc = glGetUniformLocation(lampShader.Program, "model");
-        viewLoc = glGetUniformLocation(lampShader.Program, "view");
-        projLoc = glGetUniformLocation(lampShader.Program, "projection");
-        // Set matrices
+        Anim.Use();
+        tiempo = glfwGetTime() * speed;
+        //Este fue el error
+        modelLoc = glGetUniformLocation(Anim.Program, "model");
+        viewLoc = glGetUniformLocation(Anim.Program, "view");
+        projLoc = glGetUniformLocation(Anim.Program, "projection");
+
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(0.0f, 0.1f, 0.0f));
+        glUniform1f(glGetUniformLocation(Anim.Program, "time"), tiempo);
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        //SV.Draw(lampShader);
+        Piso.Draw(Anim);
         glBindVertexArray(0);
 
-        Anim.Use();
+        Anim2.Use();
+        tiempo = glfwGetTime() * speed;
+        //Este fue el error
+        modelLoc = glGetUniformLocation(Anim.Program, "model");
+        viewLoc = glGetUniformLocation(Anim.Program, "view");
+        projLoc = glGetUniformLocation(Anim.Program, "projection");
+
         glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        tiempo = glfwGetTime();
         model = glm::mat4(1);
-        model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
+        glUniform1f(glGetUniformLocation(Anim.Program, "time"), tiempo);
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        glUniform1f(glGetUniformLocation(Anim.Program, "time"), glfwGetTime());
-        Fish.Draw(Anim);
-        //Piso.Draw(Anim);
+        SV.Draw(Anim2);
         glBindVertexArray(0);
+
 
         // Swap the screen buffers
         glfwSwapBuffers(window);
@@ -342,7 +348,6 @@ int main() {
 
     // Terminate GLFW, clearing any resources allocated by GLFW.
     glfwTerminate();
-
 
 
     return 0;
@@ -400,27 +405,20 @@ void DoMovement() {
 }
 
 // Is called whenever a key is pressed/released via GLFW
-void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode)
-{
-    if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
-    {
+void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode) {
+    if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action) {
         glfwSetWindowShouldClose(window, GL_TRUE);
     }
 
-    if (key >= 0 && key < 1024)
-    {
-        if (action == GLFW_PRESS)
-        {
+    if (key >= 0 && key < 1024) {
+        if (action == GLFW_PRESS) {
             keys[key] = true;
-        }
-        else if (action == GLFW_RELEASE)
-        {
+        } else if (action == GLFW_RELEASE) {
             keys[key] = false;
         }
     }
 
-    if (keys[GLFW_KEY_SPACE])
-    {
+    if (keys[GLFW_KEY_SPACE]) {
         active = !active;
         if (active) {
             Light1 = glm::vec3(1.0f, 0.2f, 1.0f);
@@ -430,10 +428,8 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
     }
 }
 
-void MouseCallback(GLFWwindow *window, double xPos, double yPos)
-{
-    if (firstMouse)
-    {
+void MouseCallback(GLFWwindow *window, double xPos, double yPos) {
+    if (firstMouse) {
         lastX = xPos;
         lastY = yPos;
         firstMouse = false;
