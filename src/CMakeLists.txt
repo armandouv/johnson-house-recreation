@@ -48,6 +48,6 @@ include_directories(
         ${stb_SOURCE_DIR}
 )
 
-add_executable(proyecto_final MainPrueba.cpp Shader.h Camera.h Mesh.h Model.h meshAnim.h modelAnim.h Texture.h)
+add_executable(proyecto_final 317005435_PRACTICA7_GPO6.cpp Shader.h Camera.h Mesh.h Model.h meshAnim.h modelAnim.h Texture.h)
 
 target_link_libraries(proyecto_final glfw assimp soil2 OpenGL::GL libglew_static glm::glm)
