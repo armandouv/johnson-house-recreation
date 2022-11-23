@@ -438,6 +438,7 @@ int main() {
         model = glm::mat4(1);
         model = glm::translate(model, PosIni + glm::vec3(movKitX, 0, movKitZ));
         model = glm::rotate(model, glm::radians(rotKit), glm::vec3(0.0f, 1.0f, 0.0));
+        model = glm::translate(model, glm::vec3(1.7f, 0.5f, 2.9f));
         model = glm::scale(model, glm::vec3(0.02f, 0.02f, 0.02f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         LLanta.Draw(lightingShader);
@@ -635,17 +636,32 @@ void animacion() {
 
     //Movimiento del coche
     if (circuito) {
+        // La rotación del recorrido inicial del carro debe ser de 90 grados para que apunte hacia arriba,
+        // por lo que rotKit será igual a 90 grados.
+        // Se debe de mover únicamente en el eje x hacia arriba, por lo que se agrega una unidad a movKitX.
         if (recorrido1) {
+            rotKit = 90.0f;
             movKitX += 1.0f;
             if (movKitX > 90) {
                 recorrido1 = false;
                 recorrido2 = true;
             }
         }
+
+        // Los ángulos internos de un cuadrado son de 90 grados, y dado que queremos ir del punto D
+        // al punto B, el recorrido a realizar es en dirección de -45 grados.
+        // Dado que la tangente de -45 grados es igual a -1, DeltaX / DeltaZ debe ser igual a dicha
+        // magnitud.
+        // Además, queremos llegar al punto (0, 0, 90) y el punto en el que nos encontramos es (90, 0, 0), por lo tanto, sabemos que
+        // debemos reducir el valor de X para pasar de 90 a 0, mientras que debemos aumentar el valor de
+        // Z para pasar de 0 a 90. Proponemos valores de DeltaX y DeltaZ de -1 y 1, respectivamente, y
+        // comprobamos que el valor de la pendiente (DeltaX / DeltaZ = -1 / 1 = -1) coincide con el valor
+        // esperado de la tangente (-1).
         if (recorrido2) {
-            rotKit = 0.0f;
+            rotKit = -45.0f;
             movKitZ += 1.0f;
-            if (movKitZ > 90) {
+            movKitX -= 1.0f;
+            if (movKitX < 0.0f) {
                 recorrido2 = false;
                 recorrido3 = true;
 
@@ -653,11 +669,11 @@ void animacion() {
         }
 
         if (recorrido3) {
-            rotKit = -90.0f;
-            movKitX -= 1.0f;
-            if (movKitX < 0) {
+            rotKit = 180;
+            movKitZ -= 1.0f;
+            if (movKitZ < 0) {
                 recorrido3 = false;
-                recorrido4 = true;
+                recorrido1 = true;
             }
         }
 
