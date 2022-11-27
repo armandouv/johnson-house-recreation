@@ -161,6 +161,7 @@ int main() {
     Model SmallCouch((char *) "Models/SmallCouch/smallcouch.obj");
     Model Table((char *) "Models/Table/table.obj");
     Model Piso((char *) "Models/Piso/Piso.obj");
+    Model Chair((char *) "Models/Chair/chair.obj");
 
 
 
@@ -350,6 +351,16 @@ int main() {
         model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Table.Draw(lightingShader);
+
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0f));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        Chair.Draw(lightingShader);
+
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(4.0f, 0.0f, 1.0f));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        Chair.Draw(lightingShader);
 
         model = glm::mat4(1);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
