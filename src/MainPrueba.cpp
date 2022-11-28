@@ -163,6 +163,7 @@ int main() {
     Model Piso((char *) "Models/Piso/Piso.obj");
     Model Chair((char *) "Models/Chair/chair.obj");
     Model Pot((char *) "Models/Pot/pot.obj");
+    Model Dishware((char *) "Models/Dishware/dishware.obj");
 
 
 
@@ -220,9 +221,9 @@ int main() {
 
         // Directional light
         glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), -0.2f, -1.0f, -0.3f);
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 1.0f, 1.0f, 1.0f);
+        glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 0.7f, 0.7f, 0.7f);
         glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.4f, 0.4f, 0.4f);
-        glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.5f, 0.5f, 0.5f);
+        glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.8f, 0.8f, 0.8f);
 
 
         // Point light 1
@@ -345,6 +346,12 @@ int main() {
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Table.Draw(lightingShader);
+
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(4.2f, 1.38f, 3.5f));
+        model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        Dishware.Draw(lightingShader);
 
         model = glm::mat4(1);
         model = glm::translate(model, glm::vec3(3.0f, 0.0f, 10.0f));
