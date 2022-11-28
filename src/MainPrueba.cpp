@@ -162,7 +162,7 @@ int main() {
     Model Table((char *) "Models/Table/table.obj");
     Model Piso((char *) "Models/Piso/Piso.obj");
     Model Chair((char *) "Models/Chair/chair.obj");
-
+    Model Pot((char *) "Models/Pot/pot.obj");
 
 
 
@@ -351,6 +351,12 @@ int main() {
         model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Table.Draw(lightingShader);
+
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(3.1f, 0.82f, 10.0f));
+        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        Pot.Draw(lightingShader);
 
         model = glm::mat4(1);
         model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0f));
