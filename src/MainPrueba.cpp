@@ -109,6 +109,12 @@ glm::vec3 Light1 = glm::vec3(0);
 GLfloat deltaTime = 0.0f;    // Time between current frame and last frame
 GLfloat lastFrame = 0.0f;    // Time of last frame
 
+float drawer_translation = -4.5f;
+bool is_drawer_opening = false, is_drawer_closing = false;
+
+float chair_translation = 2.2f;
+bool is_chair_opening = false, is_chair_closing = false;
+
 int main() {
     // Init GLFW
     glfwInit();
@@ -157,13 +163,15 @@ int main() {
     Shader Anim("Shaders/anim.vs", "Shaders/anim.frag");
 
     Model Couch((char *) "Models/Couch/couch.obj");
-    Model Dresser((char *) "Models/Dresser/dresser.obj");
+    Model Dresser((char *) "Models/Dresser/dresser2.obj");
+    Model Drawer((char *) "Models/Dresser/drawer.obj");
     Model SmallCouch((char *) "Models/SmallCouch/smallcouch.obj");
     Model Table((char *) "Models/Table/table.obj");
     Model Piso((char *) "Models/Piso/Piso.obj");
     Model Chair((char *) "Models/Chair/chair.obj");
     Model Pot((char *) "Models/Pot/pot.obj");
     Model Dishware((char *) "Models/Dishware/dishware.obj");
+    Model House((char *) "Models/House/house4.obj");
 
 
 
@@ -196,6 +204,12 @@ int main() {
         GLfloat currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+
+        if (is_drawer_opening && drawer_translation < -3.4f) drawer_translation += 0.1f;
+        else if (is_drawer_closing && drawer_translation > -4.5f) drawer_translation -= 0.1f;
+
+        if (is_chair_opening && chair_translation > 1.3f) chair_translation -= 0.1f;
+        else if (is_chair_closing && chair_translation < 2.2f) chair_translation += 0.1f;
 
         // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
         glfwPollEvents();
@@ -330,6 +344,13 @@ int main() {
         Dresser.Draw(lightingShader);
 
         model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(drawer_translation, 0.0f, 10.0f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        Drawer.Draw(lightingShader);
+
+        model = glm::mat4(1);
         model = glm::translate(model, glm::vec3(0.5f, 0.0f, 8.0f));
         model = glm::rotate(model, glm::radians(80.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -366,12 +387,14 @@ int main() {
         Pot.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0f));
+        model = glm::translate(model, glm::vec3(2.2f, 0.0f, chair_translation));
+        model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Chair.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(4.0f, 0.0f, 1.0f));
+        model = glm::translate(model, glm::vec3(3.8f, 0.0f, 1.2f));
+        model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Chair.Draw(lightingShader);
 
@@ -379,6 +402,13 @@ int main() {
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Piso.Draw(lightingShader);
+
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -4.5f));
+        model = glm::scale(model, glm::vec3(3.5f, 3.5f, 3.5f));
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        House.Draw(lightingShader);
 
         // Swap the screen buffers
         glfwSwapBuffers(window);
@@ -463,6 +493,26 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
             Light1 = glm::vec3(1.0f, 0.2f, 1.0f);
         } else {
             Light1 = glm::vec3(0);//Cuado es solo un valor en los 3 vectores pueden dejar solo una componente
+        }
+    }
+
+    if (key == GLFW_KEY_M && action == GLFW_PRESS) {
+        if (drawer_translation == -3.4f || is_drawer_opening) {
+            is_drawer_closing = true;
+            is_drawer_opening = false;
+        } else if (drawer_translation == -4.5f || is_drawer_closing) {
+            is_drawer_closing = false;
+            is_drawer_opening = true;
+        }
+    }
+
+    if (key == GLFW_KEY_N && action == GLFW_PRESS) {
+        if (chair_translation == 2.2f || is_chair_closing) {
+            is_chair_closing = false;
+            is_chair_opening = true;
+        } else if (chair_translation == 1.3f || is_chair_opening) {
+            is_chair_closing = true;
+            is_chair_opening = false;
         }
     }
 }
