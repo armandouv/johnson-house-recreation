@@ -59,22 +59,27 @@ GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
 // Keyframes
-float posX =PosIni.x, posY = PosIni.y, posZ = PosIni.z, rotRodIzq = 0;
+float posX = PosIni.x, posY = PosIni.y, posZ = PosIni.z, rotRodIzq = 0, rotRodDer = 0, rotBraIzq = 0, rotBraDer = 0;
 
 #define MAX_FRAMES 9
 int i_max_steps = 190;
 int i_curr_steps = 0;
-typedef struct _frame
-{
+typedef struct _frame {
     //Variables para GUARDAR Key Frames
-    float posX;		//Variable para PosicionX
-    float posY;		//Variable para PosicionY
-    float posZ;		//Variable para PosicionZ
-    float incX;		//Variable para IncrementoX
-    float incY;		//Variable para IncrementoY
-    float incZ;		//Variable para IncrementoZ
+    float posX;        //Variable para PosicionX
+    float posY;        //Variable para PosicionY
+    float posZ;        //Variable para PosicionZ
+    float incX;        //Variable para IncrementoX
+    float incY;        //Variable para IncrementoY
+    float incZ;        //Variable para IncrementoZ
     float rotRodIzq;
+    float rotRodDer;
+    float rotBraIzq;
+    float rotBraDer;
     float rotInc;
+    float rotInc2;
+    float rotInc3;
+    float rotInc4;
 
 }FRAME;
 
@@ -96,8 +101,7 @@ glm::vec3 LightP1;
 
 
 
-void saveFrame(void)
-{
+void saveFrame(void) {
 
     printf("posx %f\n", posX);
 
@@ -106,30 +110,34 @@ void saveFrame(void)
     KeyFrame[FrameIndex].posZ = posZ;
 
     KeyFrame[FrameIndex].rotRodIzq = rotRodIzq;
-
+    KeyFrame[FrameIndex].rotRodDer = rotRodDer;
+    KeyFrame[FrameIndex].rotBraIzq = rotBraIzq;
+    KeyFrame[FrameIndex].rotBraDer = rotBraDer;
 
     FrameIndex++;
 }
 
-void resetElements(void)
-{
+void resetElements(void) {
     posX = KeyFrame[0].posX;
     posY = KeyFrame[0].posY;
     posZ = KeyFrame[0].posZ;
 
     rotRodIzq = KeyFrame[0].rotRodIzq;
-
+    rotRodDer = KeyFrame[0].rotRodDer;
+    rotBraIzq = KeyFrame[0].rotBraIzq;
+    rotBraDer = KeyFrame[0].rotBraDer;
 }
 
-void interpolation(void)
-{
+void interpolation(void) {
 
     KeyFrame[playIndex].incX = (KeyFrame[playIndex + 1].posX - KeyFrame[playIndex].posX) / i_max_steps;
     KeyFrame[playIndex].incY = (KeyFrame[playIndex + 1].posY - KeyFrame[playIndex].posY) / i_max_steps;
     KeyFrame[playIndex].incZ = (KeyFrame[playIndex + 1].posZ - KeyFrame[playIndex].posZ) / i_max_steps;
 
     KeyFrame[playIndex].rotInc = (KeyFrame[playIndex + 1].rotRodIzq - KeyFrame[playIndex].rotRodIzq) / i_max_steps;
-
+    KeyFrame[playIndex].rotInc2 = (KeyFrame[playIndex + 1].rotRodDer - KeyFrame[playIndex].rotRodDer) / i_max_steps;
+    KeyFrame[playIndex].rotInc3 = (KeyFrame[playIndex + 1].rotBraIzq - KeyFrame[playIndex].rotBraIzq) / i_max_steps;
+    KeyFrame[playIndex].rotInc4 = (KeyFrame[playIndex + 1].rotBraDer - KeyFrame[playIndex].rotBraDer) / i_max_steps;
 }
 
 
@@ -209,14 +217,20 @@ int main()
 
     //Inicialización de KeyFrames
 
-    for(int i=0; i<MAX_FRAMES; i++)
-    {
+    for(int i=0; i<MAX_FRAMES; i++) {
         KeyFrame[i].posX = 0;
         KeyFrame[i].incX = 0;
         KeyFrame[i].incY = 0;
         KeyFrame[i].incZ = 0;
         KeyFrame[i].rotRodIzq = 0;
+        KeyFrame[i].rotRodDer = 0;
         KeyFrame[i].rotInc = 0;
+        KeyFrame[i].rotInc2 = 0;
+
+        KeyFrame[i].rotBraIzq = 0;
+        KeyFrame[i].rotBraDer = 0;
+        KeyFrame[i].rotInc3 = 0;
+        KeyFrame[i].rotInc4 = 0;
     }
 
 
@@ -555,6 +569,7 @@ int main()
         model = glm::translate(tmp, glm::vec3(0.5f, 0.0f, -0.1f));
         model = glm::translate(model, glm::vec3(posX, posY, posZ));
         model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(-rotRodDer), glm::vec3(1.0f, 0.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         glUniform1f(glGetUniformLocation(lightingShader.Program, "transparencia"), 0.0);
 
@@ -570,7 +585,7 @@ int main()
         model = glm::mat4(1);
         model = glm::translate(model, glm::vec3(posX, posY, posZ));
         model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::rotate(model, glm::radians(-rotRodIzq), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(-rotBraDer), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::translate(model, glm::vec3(-0.75f, 2.5f, 0));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         BrazoDer.Draw(lightingShader);
@@ -580,6 +595,7 @@ int main()
         model = glm::mat4(1);
         model = glm::translate(model, glm::vec3(posX, posY, posZ));
         model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(-rotBraIzq), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::translate(model, glm::vec3(0.75f, 2.5f, 0));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         BrazoIzq.Draw(lightingShader);
@@ -700,14 +716,17 @@ void animacion()
                 interpolation();
             }
         }
-        else
-        {
+        else {
             //Draw animation
             posX += KeyFrame[playIndex].incX;
             posY += KeyFrame[playIndex].incY;
             posZ += KeyFrame[playIndex].incZ;
 
             rotRodIzq += KeyFrame[playIndex].rotInc;
+            rotRodDer += KeyFrame[playIndex].rotInc2;
+
+            rotBraIzq += KeyFrame[playIndex].rotInc3;
+            rotBraDer += KeyFrame[playIndex].rotInc4;
 
             i_curr_steps++;
         }
@@ -815,23 +834,54 @@ void DoMovement()
 
     }
 
-    if (keys[GLFW_KEY_3])
-    {
-        if (rotRodIzq>-45)
+    if (keys[GLFW_KEY_3]) {
+        if (rotRodIzq > -45)
             rotRodIzq -= 1.0f;
 
     }
 
+    if (keys[GLFW_KEY_4]) {
+        if (rotRodDer < 80.0f)
+            rotRodDer += 1.0f;
 
+    }
+
+    if (keys[GLFW_KEY_5]) {
+        if (rotRodDer > -45)
+            rotRodDer -= 1.0f;
+
+    }
+
+    if (keys[GLFW_KEY_6]) {
+        if (rotBraIzq < 80.0f)
+            rotBraIzq += 1.0f;
+
+    }
+
+    if (keys[GLFW_KEY_7]) {
+        if (rotBraIzq > -45)
+            rotBraIzq -= 1.0f;
+
+    }
+
+    if (keys[GLFW_KEY_8]) {
+        if (rotBraDer < 80.0f)
+            rotBraDer += 1.0f;
+
+    }
+
+    if (keys[GLFW_KEY_9]) {
+        if (rotBraDer > -45)
+            rotBraDer -= 1.0f;
+
+    }
 
     //Mov Personaje
-    if (keys[GLFW_KEY_H])
-    {
+    if (keys[GLFW_KEY_H]) {
         posZ += 1;
     }
 
-    if (keys[GLFW_KEY_Y])
-    {
+    if (keys[GLFW_KEY_Y]) {
         posZ -= 1;
     }
 
