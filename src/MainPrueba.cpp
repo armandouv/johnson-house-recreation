@@ -115,6 +115,9 @@ bool is_drawer_opening = false, is_drawer_closing = false;
 float chair_translation = 2.2f;
 bool is_chair_opening = false, is_chair_closing = false;
 
+float spider_rotation = 0.0f, spider_translation = 0.0f;
+bool is_spider_left = true, is_spider_down = true;
+
 int main() {
     // Init GLFW
     glfwInit();
@@ -172,6 +175,7 @@ int main() {
     Model Pot((char *) "Models/Pot/pot.obj");
     Model Dishware((char *) "Models/Dishware/dishware.obj");
     Model House((char *) "Models/House/house4.obj");
+    Model Spider((char *) "Models/Spider/spider.obj");
 
 
 
@@ -210,6 +214,22 @@ int main() {
 
         if (is_chair_opening && chair_translation > 1.3f) chair_translation -= 0.1f;
         else if (is_chair_closing && chair_translation < 2.2f) chair_translation += 0.1f;
+
+        if (is_spider_down) {
+            if (spider_translation > -0.1f) spider_translation -= 0.01f;
+            else is_spider_down = false;
+        } else {
+            if (spider_translation < 0.1f) spider_translation += 0.01f;
+            else is_spider_down = true;
+        }
+
+        if (is_spider_left) {
+            if (spider_rotation > -45.0f) spider_rotation -= 0.5f;
+            else is_spider_left = false;
+        } else {
+            if (spider_rotation < 45.0f) spider_rotation += 0.5f;
+            else is_spider_left = true;
+        }
 
         // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
         glfwPollEvents();
@@ -409,6 +429,13 @@ int main() {
         model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         House.Draw(lightingShader);
+
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(-4.5f, 5.0f + spider_translation, 10.0f));
+        model = glm::rotate(model, glm::radians(spider_rotation), glm::vec3(1.0, 0.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(spider_rotation * 4), glm::vec3(0.0, 1.0f, 0.0f));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        Spider.Draw(lightingShader);
 
         // Swap the screen buffers
         glfwSwapBuffers(window);
