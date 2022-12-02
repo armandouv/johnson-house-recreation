@@ -118,6 +118,9 @@ bool is_chair_opening = false, is_chair_closing = false;
 float spider_rotation = 0.0f, spider_translation = 0.0f;
 bool is_spider_left = true, is_spider_down = true;
 
+float fly_rotation = 0.0f, fly_x_translation = 0.0f, fly_y_translation = 0.0f;
+bool is_fly_left = true, is_fly_down = true;
+
 int main() {
     // Init GLFW
     glfwInit();
@@ -176,6 +179,7 @@ int main() {
     Model Dishware((char *) "Models/Dishware/dishware.obj");
     Model House((char *) "Models/House/house4.obj");
     Model Spider((char *) "Models/Spider/spider.obj");
+    Model Fly((char *) "Models/Fly/fly.obj");
 
 
 
@@ -229,6 +233,22 @@ int main() {
         } else {
             if (spider_rotation < 45.0f) spider_rotation += 0.5f;
             else is_spider_left = true;
+        }
+
+        fly_x_translation = sin(currentFrame);
+        fly_y_translation = cos(currentFrame);
+        if (fly_x_translation >= 0) {
+            if (fly_y_translation >= 0) {
+                fly_rotation = glm::degrees(180.0f) + abs(asin(fly_x_translation));
+            } else {
+                fly_rotation = glm::degrees(180.0f) + abs(acos(fly_y_translation));
+            }
+        } else {
+            if (fly_y_translation >= 0) {
+                fly_rotation = glm::degrees(180.0f) - abs(asin(fly_x_translation));
+            } else {
+                fly_rotation = glm::degrees(180.0f) - abs(acos(fly_y_translation));
+            }
         }
 
         // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
@@ -436,6 +456,13 @@ int main() {
         model = glm::rotate(model, glm::radians(spider_rotation * 4), glm::vec3(0.0, 1.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Spider.Draw(lightingShader);
+
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(3.0f + fly_x_translation, 4.0f, 3.0f + fly_y_translation));
+        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        model = glm::rotate(model, fly_rotation + glm::degrees(90.0f), glm::vec3(0.0, 1.0f, 0.0f));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        Fly.Draw(lightingShader);
 
         // Swap the screen buffers
         glfwSwapBuffers(window);
