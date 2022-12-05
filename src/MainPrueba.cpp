@@ -522,28 +522,6 @@ void DoMovement() {
 
     }
 
-    if (keys[GLFW_KEY_T]) {
-        pointLightPositions[0].x += 0.01f;
-    }
-    if (keys[GLFW_KEY_G]) {
-        pointLightPositions[0].x -= 0.01f;
-    }
-
-    if (keys[GLFW_KEY_Y]) {
-        pointLightPositions[0].y += 0.01f;
-    }
-
-    if (keys[GLFW_KEY_H]) {
-        pointLightPositions[0].y -= 0.01f;
-    }
-    if (keys[GLFW_KEY_U]) {
-        pointLightPositions[0].z -= 0.1f;
-    }
-    if (keys[GLFW_KEY_J]) {
-        pointLightPositions[0].z += 0.01f;
-    }
-
-
 }
 
 // Is called whenever a key is pressed/released via GLFW
@@ -560,7 +538,7 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
         }
     }
 
-    if (keys[GLFW_KEY_SPACE]) {
+    if (keys[GLFW_KEY_SPACE] && action == GLFW_PRESS) {
         active = !active;
         if (active) {
             Light1 = glm::vec3(1.0f, 1.0f, 1.0f);
