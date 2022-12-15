@@ -585,8 +585,8 @@ int main()
         model = glm::mat4(1);
         model = glm::translate(model, glm::vec3(posX, posY, posZ));
         model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::rotate(model, glm::radians(-rotBraDer), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::translate(model, glm::vec3(-0.75f, 2.5f, 0));
+        model = glm::rotate(model, glm::radians(-rotBraDer), glm::vec3(1.0f, 0.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         BrazoDer.Draw(lightingShader);
 
@@ -595,8 +595,8 @@ int main()
         model = glm::mat4(1);
         model = glm::translate(model, glm::vec3(posX, posY, posZ));
         model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::rotate(model, glm::radians(-rotBraIzq), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::translate(model, glm::vec3(0.75f, 2.5f, 0));
+        model = glm::rotate(model, glm::radians(-rotBraIzq), glm::vec3(1.0f, 0.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         BrazoIzq.Draw(lightingShader);
 
