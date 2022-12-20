@@ -1,0 +1,116 @@
+newmtl Cocina
+illum 4
+Kd 0.00 0.00 0.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd 7ccd137c-28e2-4363-8bad-43751316c3d7.JPG
+Ni 1.45
+Ks 0.50 0.50 0.50
+Ns 250.00
+newmtl Disco
+illum 4
+Kd 0.00 0.00 0.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd 435afc71-ca4a-4f3f-be97-b2751ac3bdbe.JPG
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl Disco_2
+illum 4
+Kd 0.00 0.00 0.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd 9ee19f5f-c2ab-455c-a32d-882b88fd7f6c.JPG
+Ni 1.45
+Ks 0.50 0.50 0.50
+Ns 250.00
+newmtl Piso
+illum 4
+Kd 0.00 0.00 0.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd Piso.jpeg
+Ni 1.45
+Ks 0.50 0.50 0.50
+Ns 250.00
+newmtl Ventana_001
+illum 4
+Kd 0.00 0.00 0.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd 99023676-3118-4c37-b065-7885c74edfb9.JPG
+Ni 1.45
+Ks 0.50 0.50 0.50
+Ns 250.00
+newmtl phong1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd Wood__Floor.jpg
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl phong3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd white.png
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl phong4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd azulcielo.png
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl polySurface9SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.20 0.20 0.20
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 0.00
+newmtl polySurface13SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.20 0.20 0.20
+Tf 1.00 1.00 1.00
+map_Kd material_3.png
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 0.00
+newmtl polySurface15SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd material_3.png
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl polySurface23SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.20 0.20 0.20
+Tf 1.00 1.00 1.00
+map_Kd material_1.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 0.00
+newmtl polySurface81SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.20 0.20 0.20
+Tf 1.00 1.00 1.00
+map_Kd Wood__Floor.jpg
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 0.00

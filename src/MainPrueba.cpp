@@ -51,7 +51,7 @@ float speed = 1.0f;
 
 // Positions of the point lights
 glm::vec3 pointLightPositions[] = {
-        glm::vec3(3.0f, 7.5f, 3.0f),
+        glm::vec3(3.0f, 7.5f, 6.0f),
         glm::vec3(3.0f, 7.5f, 10.0f),
         glm::vec3(0.0f, 0.0f, 0.0f),
         glm::vec3(0.0f, 0.0f, 0.0f)
@@ -112,7 +112,7 @@ GLfloat lastFrame = 0.0f;    // Time of last frame
 float drawer_translation = -4.5f;
 bool is_drawer_opening = false, is_drawer_closing = false;
 
-float chair_translation = 2.2f;
+float chair_translation = 3.7f;
 bool is_chair_opening = false, is_chair_closing = false;
 
 float spider_rotation = 0.0f, spider_translation = 0.0f;
@@ -179,7 +179,7 @@ int main() {
     Model Chair((char *) "Models/Chair/chair.obj");
     Model Pot((char *) "Models/Pot/pot.obj");
     Model Dishware((char *) "Models/Dishware/dishware.obj");
-    Model House((char *) "Models/House/house6.obj");
+    Model House((char *) "Models/House/house10.obj");
     Model Door((char *) "Models/Door/door.obj");
     Model Spider((char *) "Models/Spider/spider.obj");
     Model Fly((char *) "Models/Fly/fly.obj");
@@ -374,7 +374,7 @@ int main() {
         glUniform4f(glGetUniformLocation(lightingShader.Program, "colorAlpha"), 1.0f, 1.0f, 1.0f, 1.0f);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(3.0f, 2.3f, 7.0f));
+        model = glm::translate(model, glm::vec3(4.0f, 2.3f, 8.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Couch.Draw(lightingShader);
 
@@ -393,49 +393,49 @@ int main() {
         Drawer.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(0.5f, 2.3f, 8.0f));
+        model = glm::translate(model, glm::vec3(1.5f, 2.3f, 9.0f));
         model = glm::rotate(model, glm::radians(80.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         SmallCouch.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(0.3f, 2.3f, 10.0f));
+        model = glm::translate(model, glm::vec3(1.3f, 2.3f, 11.0f));
         model = glm::rotate(model, glm::radians(100.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         SmallCouch.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(3.0f, 2.3f, 3.0f));
+        model = glm::translate(model, glm::vec3(4.0f, 2.3f, 4.5f));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Table.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(4.2f, 1.38f + 2.3f, 3.5f));
+        model = glm::translate(model, glm::vec3(5.2f, 1.38f + 2.3f, 4.5f));
         model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Dishware.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(3.0f, 2.3f, 10.0f));
+        model = glm::translate(model, glm::vec3(4.0f, 2.3f, 11.0f));
         model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Table.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(3.1f, 0.82f + 2.3f, 10.0f));
+        model = glm::translate(model, glm::vec3(4.1f, 0.82f + 2.3f, 11.0f));
         model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Pot.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(2.2f, 2.3f, chair_translation));
+        model = glm::translate(model, glm::vec3(3.2f, 2.3f, chair_translation));
         model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Chair.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(3.8f, 2.3f, 1.2f));
+        model = glm::translate(model, glm::vec3(4.8f, 2.3f, 2.7f));
         model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Chair.Draw(lightingShader);
@@ -467,19 +467,19 @@ int main() {
         Spider.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(3.0f + fly_x_translation, 6.0f, 3.0f + fly_y_translation));
+        model = glm::translate(model, glm::vec3(4.0f + fly_x_translation, 6.0f, 4.0f + fly_y_translation));
         model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
         model = glm::rotate(model, fly_rotation + glm::degrees(90.0f), glm::vec3(0.0, 1.0f, 0.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Fly.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(3.0f, 5.93f, 3.0f));
+        model = glm::translate(model, glm::vec3(3.0f, 5.93f, 6.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Light.Draw(lightingShader);
 
         model = glm::mat4(1);
-        model = glm::translate(model, glm::vec3(3.0f, 5.93f, 10.0f));
+        model = glm::translate(model, glm::vec3(3.0f, 5.93f, 11.0f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Light.Draw(lightingShader);
 
