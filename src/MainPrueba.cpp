@@ -123,6 +123,8 @@ float fly_rotation = 0.0f, fly_x_translation = 0.0f, fly_y_translation = 0.0f;
 float door_rotation = 0.0f;
 bool is_door_opening = false, is_door_closing = false;
 
+float floppy_rotation = 0.0f;
+
 int main() {
     // Init GLFW
     glfwInit();
@@ -179,11 +181,12 @@ int main() {
     Model Chair((char *) "Models/Chair/chair.obj");
     Model Pot((char *) "Models/Pot/pot.obj");
     Model Dishware((char *) "Models/Dishware/dishware.obj");
-    Model House((char *) "Models/House/house10.obj");
+    Model House((char *) "Models/House/house17.obj");
     Model Door((char *) "Models/Door/door.obj");
     Model Spider((char *) "Models/Spider/spider.obj");
     Model Fly((char *) "Models/Fly/fly.obj");
     Model Light((char *) "Models/Light/light.obj");
+    Model Floppy((char *) "Models/Floppy/floppy.obj");
 
 
 
@@ -220,8 +223,8 @@ int main() {
         if (is_drawer_opening && drawer_translation < -3.4f) drawer_translation += 0.1f;
         else if (is_drawer_closing && drawer_translation > -4.5f) drawer_translation -= 0.1f;
 
-        if (is_chair_opening && chair_translation > 1.3f) chair_translation -= 0.1f;
-        else if (is_chair_closing && chair_translation < 2.2f) chair_translation += 0.1f;
+        if (is_chair_opening && chair_translation > 2.8f) chair_translation -= 0.1f;
+        else if (is_chair_closing && chair_translation < 3.7f) chair_translation += 0.1f;
 
         if (is_door_opening && door_rotation < 90.0f) door_rotation += 5.0f;
         else if (is_door_closing && door_rotation > 0.0f) door_rotation -= 5.0f;
@@ -257,6 +260,9 @@ int main() {
                 fly_rotation = glm::degrees(180.0f) - abs(acos(fly_y_translation));
             }
         }
+
+        floppy_rotation += 1.0f;
+        if (floppy_rotation >= 360.0f) floppy_rotation -= 360.0f;
 
         // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
         glfwPollEvents();
@@ -483,6 +489,24 @@ int main() {
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
         Light.Draw(lightingShader);
 
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(0.0f, 3.5f, -3.5f));
+        model = glm::scale(model, glm::vec3(3.4f, 3.4f, 3.4f));
+        model = glm::rotate(model, glm::radians(floppy_rotation), glm::vec3(0.0, 1.0f, 0.0f));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        Floppy.Draw(lightingShader);
+
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(5.5f, 2.3f, -2.0f));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        Table.Draw(lightingShader);
+
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(7.5f, 2.3f, -6.0f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        Pot.Draw(lightingShader);
+
         // Swap the screen buffers
         glfwSwapBuffers(window);
     }
@@ -558,10 +582,10 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
     }
 
     if (key == GLFW_KEY_N && action == GLFW_PRESS) {
-        if (chair_translation == 2.2f || is_chair_closing) {
+        if (chair_translation == 3.7f || is_chair_closing) {
             is_chair_closing = false;
             is_chair_opening = true;
-        } else if (chair_translation == 1.3f || is_chair_opening) {
+        } else if (chair_translation == 2.8f || is_chair_opening) {
             is_chair_closing = true;
             is_chair_opening = false;
         }

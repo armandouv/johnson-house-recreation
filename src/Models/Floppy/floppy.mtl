@@ -1,0 +1,18 @@
+newmtl Disco
+illum 4
+Kd 0.00 0.00 0.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd 435afc71-ca4a-4f3f-be97-b2751ac3bdbe.JPG
+Ni 1.00
+Ks 0.50 0.50 0.50
+Ns 18.00
+newmtl Disco_2
+illum 4
+Kd 0.00 0.00 0.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd 9ee19f5f-c2ab-455c-a32d-882b88fd7f6c.JPG
+Ni 1.45
+Ks 0.50 0.50 0.50
+Ns 250.00
